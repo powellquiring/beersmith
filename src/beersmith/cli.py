@@ -14,12 +14,13 @@ def lbs_oz(ozs):
     default="/Users/pquiring/Documents/BeerSmith2/Recipe.bsmx",
     help="path name to recipe file",
 )
-def cli(file):
+@click.option("-n", "--number", default=4, type=int, help="number of recipes")
+def cli(file, number):
     reecipe_bsmx = pathlib.Path(file)
     with reecipe_bsmx.open() as f:
         root = beersmith.read_beersmith(f)
         recipes = beersmith.named_recipes(root, "Powell")
-        names = beersmith.highest_numbered_recipes(recipes, 4)
+        names = beersmith.highest_numbered_recipes(recipes, number)
         click.echo("\n-------------- GRAINS\n")
         for name in names:
             grain_ingrediants = beersmith.grains(recipes[name])
