@@ -40,12 +40,10 @@ def read_beersmith(f):
 
 
 def named_recipes(root, name):
-    for table in root.find("Data").iter("Table"):
-        recipe_name = table.find("Name").text
-        if recipe_name == name:
-            recipes = table.find("Data").iter("Recipe")
-            named_recipes = {recipe.find("F_R_NAME").text: recipe for recipe in recipes}
-            return named_recipes
+    data = root.find("Data")
+    recipes = root.find("Data").iter("Recipe")
+    named_recipes = {recipe.find("F_R_NAME").text: recipe for recipe in recipes}
+    return named_recipes
 
 
 def highest_numbered_recipes(recipes, count):

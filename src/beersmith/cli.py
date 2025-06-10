@@ -11,7 +11,8 @@ def lbs_oz(ozs):
 @click.option(
     "-f",
     "--file",
-    default="/Users/pquiring/Documents/BeerSmith2/Recipe.bsmx",
+    # default="/Users/pquiring/Documents/BeerSmith2/Recipe.bsmx",
+    default="/Users/powellquiring/Library/Application Support/BeerSmith3/Recipe.bsmx",
     help="path name to recipe file",
 )
 @click.option("-n", "--number", default=4, type=int, help="number of recipes")
@@ -19,7 +20,7 @@ def cli(file, number):
     reecipe_bsmx = pathlib.Path(file)
     with reecipe_bsmx.open() as f:
         root = beersmith.read_beersmith(f)
-        recipes = beersmith.named_recipes(root, "Powell")
+        recipes = beersmith.named_recipes(root, "My Recipies")
         names = beersmith.highest_numbered_recipes(recipes, number)
         click.echo("\n-------------- GRAINS\n")
         for name in names:
@@ -40,3 +41,6 @@ def cli(file, number):
         click.echo("\n-------------- HOPS CONSOLIDATED\n")
         for (name, oz) in hops_name_2_oz.items():
             click.echo(f"{oz:4.2f} oz {name}".format(oz, name))
+
+if __name__ == '__main__':
+    cli()
