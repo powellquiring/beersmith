@@ -29,13 +29,22 @@ def read_beersmith(f):
     root = False
     while True:
         try:
-            root = ET.fromstring(doc(s, entities))
+            wrapper = ET.fromstring(doc(f"<bsmx>{s}</bsmx>", entities))
+            root = wrapper.find("Recipe")
+            if root is None:
+                root = wrapper[0]
             break
         except ET.ParseError as err:
             msg = err.msg
-            m = re.search("undefined entity &(.*?);", msg)
-            undefined_entity = msg[m.regs[1][0] : m.regs[1][1]]
-            entities.append(undefined_entity)
+            m = re.search(r"undefined entity &(.*?);", msg)
+            if m:
+                undefined_entity = m.group(1)
+                if undefined_entity not in entities:
+                    entities.append(undefined_entity)
+                else:
+                    raise
+            else:
+                raise
     return root
 
 

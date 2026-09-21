@@ -1,3 +1,4 @@
+.clinerules
 venv
 #vim swap files
 [._]*.sw[a-p]
